@@ -1,0 +1,25 @@
+#   ===========     Kafka   ===========
+kafka:
+  bootstrapAddress: localhost:9092
+  groupId: 7523
+
+#   ===========     Spring and Database (postgres + hibernate)    ===========
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/students_marks_second
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        globally_quoted_identifiers: true
+
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true

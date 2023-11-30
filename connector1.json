@@ -1,0 +1,21 @@
+{
+    "name": "connector1",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "tasks.max": "1",
+        "database.hostname": "postgres1",
+        "database.port": "5432",
+        "database.dbname": "students_marks_first",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.server.name": "postgres1",
+        "plugin.name": "pgoutput",
+        "slot.name": "debezium_slot",
+        "publication.name": "dbz_publication",
+        "table.include.list": "public.lab_work, public.student, public.mark",
+        "key.converter": "io.confluent.connect.avro.AvroConverter",
+        "value.converter": "io.confluent.connect.avro.AvroConverter",
+        "key.converter.schema.registry.url": "http://schema-registry:8081",
+        "value.converter.schema.registry.url": "http://schema-registry:8081"
+    }
+}

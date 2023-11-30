@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html ng-app='app' xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Student marks</title>
+
+    <meta name="csrf-header" data-th-content="${_csrf.headerName}">
+    <meta name="csrf-token" data-th-content="${_csrf.token}">
+</head>
+
+<body>
+    <h1>Table with marks</h1>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="/js/main.js"></script>
+
+    <div ng-controller='mainController as mainController' ng-init='mainController.getMarks()'>
+
+        <div ng-show="students.length > 0" sec:authorize="isAuthenticated()">
+            <table id="marksTable" border="1" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ФИО студента/номер ЛР</th>
+                        <th ng-repeat='lab in labs'>{{lab.label}}</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <tr ng-repeat="student in students">
+                        <td>{{student.label}}</td>
+                        <td ng-repeat="lab in labs" >{{mainController.getMark(student.value, lab.value)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- HTML-код для администратора (преподавателя) -->
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <form>
+                <p>
+                <h4>Add student</h4>
+                Student name:
+                <input type="text" ng-model='studentName' required pattern="^[a-zA-ZА-Яа-яЁё.\s]+$">
+                <button ng-click='mainController.addStudent(studentName)'>Add student</button>
+            </form>
+
+            <form>
+                <p>
+                <h4>Delete student</h4>
+                Student name:
+                <select ng-model='deletingStudent'
+                        ng-options="student.value as student.label for student in students">
+                </select>
+                <button ng-click='mainController.deleteStudent(deletingStudent)'>Delete student</button>
+            </form>
+
+            <form>
+                <p>
+                <h4>Mark student's laboratory work</h4>
+                Student name:
+                <select ng-model='markingStudent'
+                        ng-options="student.value as student.label for student in students">
+                </select>
+
+                <p>
+
+                    Laboratory work number:
+                    <select ng-model='lab'
+                            ng-options="lab.value as lab.value for lab in labs">
+                    </select>
+
+                <p>
+
+                    Student's mark:
+                    <input type="text" ng-model='newMark'>
+
+                <p>
+
+                    <button ng-click='mainController.changeMark(markingStudent, lab, newMark)'>Change student's mark</button>
+                </p>
+            </form>
+
+
+            <h4>Add new or delete last laboratory work:</h4>
+            <p>
+                <button ng-click='mainController.addLabWork()'>Add</button>
+                <button ng-click='mainController.deleteLabWork()'>Delete</button>
+            </p>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <p>
+            <form name="logoutForm" th:action="@{/logout}" method="post">
+                <input type="submit"  class="btn btn-primary" value="Sign Out"/>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+</html>

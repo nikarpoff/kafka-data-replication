@@ -61,4 +61,4 @@
 - [ ] Исправить ошибки в main.js
 
 ## Разработчик проекта
-- [Карпов Никита](t.me/karpoffN) — Front-End Engineer
+- [Карпов Никита](t.me/karpoffN) — Back-End Engineer

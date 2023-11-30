@@ -39,6 +39,7 @@
    docker-compose up -d
 
 5. После того, как все контейнеры запустились, выполните команды для помещения в debezium коннекторов:
+   
    curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/ -d @connector1.json
    
    curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/ -d @connector2.json
